@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { createClass, PropTypes } from 'react';
 import Comment from  './Comment'
-import toggleOpen from '../decorators/toggleOpen'
+import toggleOpen from '../mixins/toggleOpen'
 
-class CommentsList extends Component {
-    static propTypes = {
+const CommentsListOld = createClass({
+    mixins: [toggleOpen],
+    propTypes: {
         comments: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.number.isRequired,
@@ -12,16 +13,7 @@ class CommentsList extends Component {
                 text: PropTypes.string.isRequired
             })
         ).isRequired
-    };
-
-    render() {
-        const commentsItems = this.getCommentsItems();
-
-        return commentsItems.length
-            ? this.getCommentsList({commentsItems})
-            : this.getNoCommentsMsg()
-    }
-
+    },
     getCommentsItems() {
         const { comments } = this.props;
 
@@ -30,30 +22,36 @@ class CommentsList extends Component {
                 <li key={ comment.id }>
                     <Comment comment={ comment } />
                 </li>
-            );
+            )
         });
-    }
-
+    },
     getCommentsList({commentsItems, hMsg, sMsg}) {
-        const { isOpen, toggleOpen } = this.props;
+        const { isOpen } = this.state;
         const hideMsg = hMsg || 'Hide Comments';
         const showMsg = sMsg || 'Show Comments';
 
         return (
             <div>
-                <i onClick={ toggleOpen } >
+                <i onClick={ this.toggleOpen } >
                     { isOpen ? hideMsg : showMsg }
                 </i>
                 { isOpen ? <ul>{ commentsItems }</ul> : null }
             </div>
         );
-    }
-
+    },
     getNoCommentsMsg(msg) {
         const noCommentsMsg = msg || 'No comments!';
 
         return <i>{ noCommentsMsg }</i>
-    }
-}
+    },
+    render() {
+        const commentsItems = this.getCommentsItems();
 
-export default toggleOpen(CommentsList);
+        return commentsItems.length
+            ? this.getCommentsList({commentsItems})
+            : this.getNoCommentsMsg()
+    }
+});
+
+
+export default CommentsListOld;

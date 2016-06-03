@@ -4,6 +4,6 @@ import { articles } from './fixtures'
 import ArticleList from './components/ArticleList'
 
 render(
-    <ArticleList articles = {articles} />, 
+    <ArticleList articles = {articles} />,
     document.getElementById('container')
 )
