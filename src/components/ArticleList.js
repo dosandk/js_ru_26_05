@@ -1,53 +1,44 @@
 import React, { PropTypes, Component } from 'react'
 import Article from './Article'
 import CommentsList from './CommentsList'
+import toggleItem from '../decorators/toggleItem'
 
 class ArticleList extends Component {
-    state = {
-        openedArticle: null
+    static propTypes = {
+        articles: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                title: PropTypes.string.isRequired,
+                text: PropTypes.string,
+                id: PropTypes.string.isRequired
+            })
+        ).isRequired
     }
 
-    toggleOpen = id => ev => {
-        this.setState({
-            openedArticle: !this.checkIsOpenState(id) ? id : null
-        })
-    }
+    getArticleItems = () => {
+        const { articles, checkIsOpenState, toggleOpen } = this.props;
 
-    checkIsOpenState = (id) => id === this.state.openedArticle
-
-    render() {
-        const { articles } = this.props;
-
-        const articleItems = articles.map((article) => {
+        return articles.map((article) => {
             const comments = article.comments || [];
             const id = article.id;
 
             return (
                 <li key = { id }>
                     <Article article = { article }
-                             isOpen = { this.checkIsOpenState(id) }
-                             toggleOpen = { this.toggleOpen(id) }/>
+                             isOpen = { checkIsOpenState(id) }
+                             toggleOpen = { toggleOpen(id) }/>
                     <CommentsList comments = { comments } />
                 </li>
             );
         });
+    }
 
+    render() {
         return (
             <ul>
-                { articleItems }
+                { this.getArticleItems() }
             </ul>
         )
     }
 }
 
-ArticleList.propTypes = {
-    articles: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            text: PropTypes.string,
-            id: PropTypes.string.isRequired
-        })
-    ).isRequired
-};
-
-export default ArticleList
+export default toggleItem(ArticleList);

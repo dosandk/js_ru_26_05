@@ -1,8 +1,10 @@
 import React, { createClass, PropTypes } from 'react'
 import Article from './Article'
 import CommentsList from './CommentsList'
+import toggleItem from '../mixins/toggleItem'
 
 const ArticleList = createClass({
+    mixins: [toggleItem],
     propTypes: {
         articles: React.PropTypes.arrayOf(
             React.PropTypes.shape({
@@ -11,21 +13,6 @@ const ArticleList = createClass({
                 id: PropTypes.string.isRequired
             })
         ).isRequired
-    },
-    getInitialState() {
-        return {
-            openedArticle: null
-        }
-    },
-    toggleOpen(id) {
-        return (ev) => {
-            this.setState({
-                openedArticle: !this.checkIsOpenState(id) ? id : null
-            })
-        }
-    },
-    checkIsOpenState(id) {
-        return id === this.state.openedArticle
     },
     render() {
         const { articles } = this.props;
