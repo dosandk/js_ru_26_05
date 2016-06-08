@@ -22,6 +22,6 @@ export default (CustomComponent) => class DecoratedComponent extends Component {
     render() {
         return <CustomComponent {...this.props}
             checkIsOpenState = { this.checkIsOpenState }
-            toggleOpen = {this.toggleOpen} />
+            toggleOpen = { this.toggleOpen } />
     }
 }
