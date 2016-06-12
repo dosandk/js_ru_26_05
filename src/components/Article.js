@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import { deleteArticle } from '../AC/articles'
 import moment from 'moment'
 
 export default (props) => {
@@ -10,10 +11,21 @@ export default (props) => {
 
     const formatDate = (timestamp) => moment.unix(article.timestamp / 1000).format('DD/MM/YYYY')
 
+    const handleDeleteArticle = (ev) => {
+        ev.preventDefault()
+        ev.stopPropagation()
+        deleteArticle(props.article.id)
+    }
+
     return (
         <div>
             <h3 onClick = { toggleOpen }>
                 { article.title }
+                {' '}
+                <a href="#"
+                   onClick = { handleDeleteArticle }>
+                    delete article
+                </a>
             </h3>
             <div>
                 { formatDate(article.timestamp) }
