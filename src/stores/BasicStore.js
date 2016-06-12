@@ -8,6 +8,7 @@ export default class BasicStore extends EventEmitter {
         super()
         this._stores = stores
         this._items = {}
+
         initialState.forEach(this._add)
     }
 

@@ -2,10 +2,11 @@ import React, { PropTypes, Component } from 'react'
 import DateRangePicker from './DateRangePicker'
 import Article from './Article'
 import CommentsList from './CommentsList'
+import CreateComment from './CreateComment'
 import toggleItem from '../decorators/toggleItem'
 import filterItemsByDate from '../decorators/filterItemsByDate'
 
-import "react-day-picker/lib/style.css"
+import 'react-day-picker/lib/style.css'
 
 class ArticleList extends Component {
     static propTypes = {
@@ -22,7 +23,6 @@ class ArticleList extends Component {
         const { filter, articles, checkIsOpenState, toggleOpen } = this.props;
 
         return filter(articles).map((article) => {
-            const comments = article.comments || [];
             const id = article.id;
 
             return (
@@ -30,7 +30,8 @@ class ArticleList extends Component {
                     <Article article = { article }
                              isOpen = { checkIsOpenState(id) }
                              toggleOpen = { toggleOpen(id) }/>
-                    <CommentsList comments = { comments } />
+                    <CreateComment id = { id } />
+                    <CommentsList comments = { article.getRelation('comments') } />
                 </li>
             );
         });
