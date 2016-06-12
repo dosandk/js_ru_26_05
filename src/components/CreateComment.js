@@ -16,7 +16,7 @@ class CreateComment extends Component {
 
     handleCreateComment = (e) => {
         e.preventDefault()
-
+        //Хорошо, но генерацию id логичнее вынести в AC
         const commentObj = {
             id: Date.now(),
             name: 'Unknown name',
