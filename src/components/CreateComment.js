@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createComment } from '../AC/articles'
+import { addComment } from '../AC/comments'
 
 class CreateComment extends Component {
     state = {
@@ -23,7 +23,7 @@ class CreateComment extends Component {
             text: this.state.comment
         }
 
-        createComment(this.props.id, commentObj)
+        addComment(this.props.id, commentObj)
 
         this._resetTextArea();
     }
@@ -36,7 +36,6 @@ class CreateComment extends Component {
                 <form>
                     <div>
                         <textarea className="create-comment"
-                                  refs="createComment"
                                   name="comment"
                                   onChange = { this.handleCommentChange }
                                   value = { this.state.comment }

@@ -1,5 +1,5 @@
 import BasicStore from './BasicStore'
-import { CREATE_COMMENT } from '../constants'
+import { ADD_COMMENT } from '../constants'
 
 export default class CommentStore extends BasicStore {
     constructor(...args) {
@@ -8,18 +8,15 @@ export default class CommentStore extends BasicStore {
             const { type, payload } = action
 
             switch (type) {
-                case CREATE_COMMENT:
-                    this._createComment(payload.id, payload.comment)
+                case ADD_COMMENT:
+                    this._add(payload.comment)
                     break
+
                 default:
                     return
             }
 
             this._emitChange()
         })
-    }
-
-    _createComment = (articleId, comment) => {
-        this._items[comment.id] = comment;
     }
 }

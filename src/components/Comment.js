@@ -8,7 +8,7 @@ export default function Comment(props) {
             <p style={ comment.title ? null : { display: 'none'} } >
                 <strong>Title: { comment.title }</strong>
             </p>
-            <p><ins>Name: { comment.name }</ins></p>
+            <p><ins>Name: { comment.user }</ins></p>
             <p>{ comment.text }</p>
         </div>
     );

@@ -1,5 +1,6 @@
 import AppDispatcher from '../dispatcher'
-import { DELETE_ARTICLE, CREATE_COMMENT } from '../constants'
+import { loadAllArticlesCall, loadArticleByIdCall, asyncACFactory } from './webUtils'
+import { DELETE_ARTICLE, LOAD_ARTICLE_BY_ID, LOAD_ALL_ARTICLES } from '../constants'
 
 export function deleteArticle(id) {
     const action = {
@@ -10,14 +11,5 @@ export function deleteArticle(id) {
     AppDispatcher.dispatch(action)
 }
 
-export function createComment(id, comment) {
-    const action = {
-        type: CREATE_COMMENT,
-        payload: {
-            id,
-            comment
-        }
-    }
-
-    AppDispatcher.dispatch(action)
-}
+export const loadAllArticles = asyncACFactory(loadAllArticlesCall, LOAD_ALL_ARTICLES)
+export const loadArticleById = asyncACFactory(loadArticleByIdCall, LOAD_ARTICLE_BY_ID)

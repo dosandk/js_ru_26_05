@@ -8,12 +8,15 @@ export default class BasicStore extends EventEmitter {
         super()
         this._stores = stores
         this._items = {}
-
         initialState.forEach(this._add)
     }
 
+    _waitFor(storeNames = []) {
+        const tokens = storeNames.map(name => this.getStoreByName(name).dispatchToken)
+        AppDispatcher.waitFor(tokens)
+    }
     _subscribe = (callback) => {
-        AppDispatcher.register(callback)
+        this.dispatchToken = AppDispatcher.register(callback)
     }
 
     getAll = () => {
@@ -24,7 +27,7 @@ export default class BasicStore extends EventEmitter {
         return this._items[id]
     }
 
-    getStoreByName(name) {
+    getStoreByName = (name) => {
         return this._stores[name]
     }
 
