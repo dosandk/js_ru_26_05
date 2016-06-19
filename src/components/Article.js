@@ -1,36 +1,67 @@
 import React, { PropTypes, Component } from 'react'
+import {connect } from 'react-redux'
+//import CommentList from './CommentList'
 import { deleteArticle } from '../AC/articles'
-import moment from 'moment'
 
-export default (props) => {
-    const { article, isOpen, toggleOpen } = props
+class Article extends Component {
 
-    if (!article) return <h3>No article</h3>
-
-    const body = isOpen ? <section>{article.text}</section> : null
-
-    const formatDate = (timestamp) => moment.unix(article.timestamp / 1000).format('DD/MM/YYYY')
-
-    const handleDeleteArticle = (ev) => {
-        ev.preventDefault()
-        ev.stopPropagation()
-        deleteArticle(props.article.id)
+/*
+    shouldComponentUpdate(nextProps, nextState) {
+        //pseudo code
+        //nextProps.article.text === this.props.article.text
+        return nextProps.article != this.props.article || this.props.isOpen != nextProps.isOpen
     }
 
-    return (
-        <div>
-            <h3 onClick = { toggleOpen }>
-                { article.title }
-                {' '}
-                <a href="#"
-                   onClick = { handleDeleteArticle }>
-                    delete article
-                </a>
-            </h3>
+*/
+
+/*
+    componentWillReceiveProps({ isOpen, article : { id, text, loading } }) {
+        if (isOpen && !text && !loading) loadArticleById({ id })
+    }
+*/
+
+    render() {
+        const { article, openArticle } = this.props
+        if (!article) return <h3>No article</h3>
+
+        return (
             <div>
-                { formatDate(article.timestamp) }
+                <h3 onClick = {openArticle}>{article.title} <a href="#" onClick = {this.handleDeleteArticle}>delete article</a></h3>
+                <h6>Added {new Date(article.date).toDateString()}</h6>
+                {this.getBody()}
             </div>
-            { body }
-        </div>
-    )
+        )
+    }
+
+    getBody() {
+        const { article, isOpen } = this.props
+        if (!isOpen) return null
+        const loader = article.loading ? <h3>Loading...</h3> : null
+        return (
+            <section>
+                {loader}
+                {article.text}
+                {/*<CommentList article = { article} />*/}
+            </section>
+        )
+    }
+
+    handleDeleteArticle = (ev) => {
+        ev.preventDefault()
+        ev.stopPropagation()
+        this.props.deleteArticle(this.props.article.id)
+    }
 }
+
+Article.propTypes = {
+    article: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        text: PropTypes.string,
+        id: PropTypes.string.isRequired
+    }),
+    isOpen: PropTypes.bool,
+    openArticle: PropTypes.func,
+    options: PropTypes.object
+}
+
+export default connect(null, { deleteArticle })(Article)

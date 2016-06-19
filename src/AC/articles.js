@@ -1,23 +1,8 @@
-import AppDispatcher from '../dispatcher'
-import { DELETE_ARTICLE, CREATE_COMMENT } from '../constants'
+import { DELETE_ARTICLE } from '../constants'
 
 export function deleteArticle(id) {
-    const action = {
+    return {
         type: DELETE_ARTICLE,
         payload: { id }
     }
-
-    AppDispatcher.dispatch(action)
-}
-
-export function createComment(id, comment) {
-    const action = {
-        type: CREATE_COMMENT,
-        payload: {
-            id,
-            comment
-        }
-    }
-
-    AppDispatcher.dispatch(action)
 }

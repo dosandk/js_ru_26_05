@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react'
 
-export default function Comment(props) {
-    const { comment } = props;
-
+function Comment(props) {
+    const {comment: { text, user }} = props
     return (
-        <div>
-            <p style={ comment.title ? null : { display: 'none'} } >
-                <strong>Title: { comment.title }</strong>
-            </p>
-            <p><ins>Name: { comment.name }</ins></p>
-            <p>{ comment.text }</p>
-        </div>
-    );
+        <div>{text} <b>by {user}</b></div>
+    )
 }
+
+Comment.propTypes = {
+    comment: PropTypes.object.isRequired
+}
+
+export default Comment
