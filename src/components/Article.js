@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
-import {connect } from 'react-redux'
-//import CommentList from './CommentList'
+import { connect } from 'react-redux'
+import CommentList from './CommentList'
 import { deleteArticle } from '../AC/articles'
 
 class Article extends Component {
@@ -41,7 +41,7 @@ class Article extends Component {
             <section>
                 {loader}
                 {article.text}
-                {/*<CommentList article = { article} />*/}
+                <CommentList article = { article } />
             </section>
         )
     }
@@ -64,4 +64,8 @@ Article.propTypes = {
     options: PropTypes.object
 }
 
-export default connect(null, { deleteArticle })(Article)
+function mapStateToProps(state) {
+    return state;
+}
+
+export default connect(mapStateToProps, { deleteArticle })(Article)

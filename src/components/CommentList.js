@@ -49,14 +49,22 @@ class CommentList extends Component {
 
     getList() {
         const { article, isOpen } = this.props
+        
         if (!isOpen) return null
+        
         const comments = getRelation(article, 'comments')
+
         if (!comments || !comments.length) return <h3>No comments yet</h3>
+        
         if (comments.includes(undefined)) return <h3>Loading comments...</h3>
-        const items = comments.map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
+        
+        const items = comments.map(comment => {
+            return <li key = {comment.id}><Comment comment = {comment} /></li>
+        })
+
         return <div>
             <ul>{items}</ul>
-            <NewCommentForm articleId={article.id} />
+            <NewCommentForm articleId={ article.id } />
         </div>
     }
 }
