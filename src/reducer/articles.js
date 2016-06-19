@@ -9,6 +9,7 @@ export default (articles = normalizedArticles, action) => {
         case ADD_COMMENT:
             return articles.map((article) => {
                 if (article.id == payload.article.id) {
+                    //хорошо, но стоит предусмотреть случай article.comments === undefined
                     article.comments = article.comments.concat([payload.comment.id])
                 }
 
