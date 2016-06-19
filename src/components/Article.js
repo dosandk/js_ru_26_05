@@ -13,25 +13,26 @@ export default class Article extends Component {
         deleteArticle(this.props.article.id)
     }
 
-    render() {
-        const { article, isOpen, toggleOpen } = this.props
+    formatDate = (timestamp) => moment.unix(timestamp / 1000).format('DD/MM/YYYY')
 
-        const formatDate = (timestamp) => moment.unix(article.timestamp / 1000).format('DD/MM/YYYY')
+    getBody = () => {
+        const { article, isOpen } = this.props
+        let body = null
 
-        const getBody = () => {
-            let body = null
-
-            if (isOpen) {
-                if (article.loading) {
-                    body = <h3>Loading...</h3>
-                }
-                else {
-                    body = <section>{article.text}</section>
-                }
+        if (isOpen) {
+            if (article.loading) {
+                body = <h3>Loading...</h3>
             }
-
-            return body;
+            else {
+                body = <section>{ article.text }</section>
+            }
         }
+
+        return body;
+    }
+
+    render() {
+        const { article, toggleOpen } = this.props
 
         return (
             <div>
@@ -44,9 +45,9 @@ export default class Article extends Component {
                     </a>
                 </h3>
                 <div>
-                    { formatDate(article.timestamp) }
+                    { this.formatDate(article.timestamp) }
                 </div>
-                { getBody() }
+                { this.getBody() }
             </div>
         )
     }

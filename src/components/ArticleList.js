@@ -31,7 +31,7 @@ class ArticleList extends Component {
                              isOpen = { checkIsOpenState(id) }
                              toggleOpen = { toggleOpen(id) }/>
                     <CreateComment id = { id } />
-                    <CommentsList comments = { article.getRelation('comments') } />
+                    <CommentsList  article = { article } />
                 </li>
             );
         });

@@ -1,9 +1,10 @@
 import BasicStore from './BasicStore'
-import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE_BY_ID, START, SUCCESS, FAIL} from '../constants'
+import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE_COMMENTS, LOAD_ARTICLE_BY_ID, START, SUCCESS, FAIL} from '../constants'
 
 export default class ArticleStore extends BasicStore {
     constructor(...args) {
         super(...args)
+        
         this._subscribe((action) => {
             const { type, payload, response, error } = action
 
@@ -40,6 +41,20 @@ export default class ArticleStore extends BasicStore {
                     this._add(response)
                     break
 
+                case LOAD_ARTICLE_COMMENTS + START:
+                    this.getById(payload.id).commentsLoaded = false
+                    break
+
+                case LOAD_ARTICLE_COMMENTS + SUCCESS:
+                    this._waitFor(['comments'])
+                    this.getById(payload.id).commentsLoaded = true
+                    break
+                
+                case LOAD_ARTICLE_COMMENTS + FAIL:
+                    this._waitFor(['comments'])
+                    this.getById(payload.id).commentsLoaded = false
+                    break
+                
                 default:
                     return
             }

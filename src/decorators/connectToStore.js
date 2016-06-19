@@ -3,6 +3,7 @@ import stores from '../stores'
 
 export default (storeNames, getStateFromStores) => {
     storeNames = storeNames || Object.keys(stores)
+    
     return (Component) => class ConnectToStore extends ReactComponent {
         constructor(props) {
             super(props)

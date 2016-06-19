@@ -25,6 +25,10 @@ export function asyncACFactory(apiCall, type) {
     }
 }
 
+export function loadArticleCommentsCall({id}) {
+    return $.get(`/api/comment?article=${id}`)
+}
+
 export function loadAllArticlesCall() {
     return $.get('/api/article')
 }
